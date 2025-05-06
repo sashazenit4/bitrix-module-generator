@@ -1,0 +1,59 @@
+<?php
+
+declare(strict_types=1);
+
+use Bitrix\Main\Application;
+use Bitrix\Main\Loader;
+use Bitrix\Main\Localization\Loc;
+use Bitrix\Main\ModuleManager;
+use Bitrix\Main\SystemException;
+
+Loc::getMessage(__FILE__);
+
+class {{$module_class_name}} extends CModule
+{
+    public $MODULE_ID = {{$module_id}};
+    public $MODULE_SORT = {{$module_sort}};
+    public $MODULE_VERSION;
+    public $MODULE_DESCRIPTION;
+    public $MODULE_VERSION_DATE;
+    public $PARTNER_NAME;
+    public $PARTNER_URI;
+
+    public function __construct()
+    {
+        $arModuleVersion = [];
+        include __DIR__ . '/version.php';
+        $this->MODULE_VERSION = $arModuleVersion['VERSION'];
+        $this->MODULE_VERSION_DATE = $arModuleVersion['VERSION_DATE'];
+        $this->MODULE_DESCRIPTION = '{{GM(\'MODULE_ID_MODULE_DESCRIPTION\')}}';
+        $this->MODULE_NAME = '{{GM(\'MODULE_ID_MODULE_NAME\')}}';
+        $this->PARTNER_NAME = '{{GM(\'MODULE_ID_PARTNER_NAME\')}}';
+        $this->PARTNER_URI = '{{GM(\'MODULE_ID_PARTNER_URI\')}}';
+    }
+
+    /**
+     * @throws SystemException
+     */
+    public function DoInstall(): void
+    {
+        if ($this->isVersionD7()) {
+            ModuleManager::registerModule($this->MODULE_ID);
+        } else {
+            throw new SystemException('{{GM(\'MODULE_ID_INSTALL_MODULE_ERROR\')}}');
+        }
+    }
+
+    /**
+     * @throws LoaderException
+     */
+    public function DoUninstall(): void
+    {
+        \Bitrix\Main\ModuleManager::unRegisterModule($this->MODULE_ID);
+    }
+
+    public function isVersionD7()
+    {
+        return CheckVersion(ModuleManager::getVersion('main'), '20.00.00');
+    }
+}

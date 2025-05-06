@@ -1,0 +1,19 @@
+{
+    "name": "sashazenit4/bitrix-module-generator",
+    "description": "This package helps you to maintain your custom bitrix modules on the developing project",
+    "type": "composer-plugin",
+    "license": "ЬMIT",
+    "autoload": {
+        "psr-4": {
+            "Sashazenit4\\BitrixModuleGenerator\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Aleksandr Kholin",
+            "email": "holinshura@gmail.com"
+        }
+    ],
+    "minimum-stability": "alpha",
+    "require": {}
+}
